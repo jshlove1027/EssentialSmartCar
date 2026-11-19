@@ -7,6 +7,8 @@
 Servo servoLeft;         
 Servo servoRight;
 
+int speed;
+
 void setup() {
   // put your setup code here, to run once:
   servoLeft.attach(13);      // Attach left signal to pin 13
@@ -20,6 +22,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   long duration, inches, cm;
+  speed=200; //자동차 속도
 
   digitalWrite(trig, LOW);
   delayMicroseconds(2); 
@@ -31,13 +34,16 @@ void loop() {
 
   //앞차와 거리에 따른 속도
   if(cm>=35){
-    maneuver(200,200,1000);
+    if(speed<200) speed += 10;
+    maneuver(speed,speed,1000);
   }
   else if(cm>15&&cm<35){
-    maneuver(50,50,1000);
+    if(speed>50) speed -= 10;
+    maneuver(speed,speed,1000);
   }
   else{
-    maneuver(0,0,1000);
+    if(speed>0) speed -= 10;
+    maneuver(speed,speed,1000);
   }
 }
 
