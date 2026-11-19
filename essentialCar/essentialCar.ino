@@ -8,6 +8,9 @@ Servo servoLeft;
 Servo servoRight;
 
 int speed = 200; // 자동차 기본 속도
+int headlight=4;
+int lightPin=0;
+int light;
 
 void setup() {
   // put your setup code here, to run once:
@@ -16,12 +19,17 @@ void setup() {
 
   //초음파센서 핀모드 설정
   pinMode(trig,OUTPUT);
-  pinMode(echo,INPUT);   
+  pinMode(echo,INPUT);
+
+  //헤드라이트
+  pinMode(headlight,OUTPUT);   
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   long duration, inches, cm;
+  speed=200; //자동차 속도
+  light=analogRead(lightPin); //조도
 
   digitalWrite(trig, LOW);
   delayMicroseconds(2); 
@@ -30,6 +38,8 @@ void loop() {
   digitalWrite(trig, LOW);
   duration = pulseIn(echo, HIGH, 30000);  //돌아오는 시간 측정, 타임아웃 시간
   cm = microsecondsToCentimeters(duration);
+  
+  delay(100); //short delay for faster response to light.
 
   int targetSpeed = 200; //거리에 따른 속도
 
@@ -51,6 +61,11 @@ void loop() {
     speed = max(speed - 10, targetSpeed);
   }
   maneuver(speed, speed, 100);
+
+  //조도가 낮을시 헤드라이트 on
+  if(light<750){
+    analogWrite(headlight,analogRead(lightPin)/4);
+  }
 }
 
 //drive car
