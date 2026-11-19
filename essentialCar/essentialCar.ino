@@ -7,7 +7,7 @@
 Servo servoLeft;         
 Servo servoRight;
 
-int speed;
+int speed = 200; // 자동차 기본 속도
 
 void setup() {
   // put your setup code here, to run once:
@@ -22,29 +22,35 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   long duration, inches, cm;
-  speed=200; //자동차 속도
 
   digitalWrite(trig, LOW);
   delayMicroseconds(2); 
   digitalWrite(trig, HIGH);
   delayMicroseconds(10); 
   digitalWrite(trig, LOW);
-  duration = pulseIn(echo, HIGH);  //돌아오는 시간 측정
+  duration = pulseIn(echo, HIGH, 30000);  //돌아오는 시간 측정, 타임아웃 시간
   cm = microsecondsToCentimeters(duration);
 
+  int targetSpeed = 200; //거리에 따른 속도
+
   //앞차와 거리에 따른 속도
-  if(cm>=35){
-    if(speed<200) speed += 10;
-    maneuver(speed,speed,1000);
+  if(cm>=35 || duration == 0){
+    targetSpeed == 200;
   }
-  else if(cm>15&&cm<35){
-    if(speed>50) speed -= 10;
-    maneuver(speed,speed,1000);
+  else if(cm>15&&cm<35){ 
+    targetSpeed = 100;
   }
   else{
-    if(speed>0) speed -= 10;
-    maneuver(speed,speed,1000);
+    targetSpeed = 0;
   }
+
+  // 현재 speed를 targetSpeed에 맞춰 10씩 조절
+  if (speed < targetSpeed) {
+    speed = min(speed + 10, targetSpeed);
+  } else if (speed > targetSpeed) {
+    speed = max(speed - 10, targetSpeed);
+  }
+  maneuver(speed, speed, 100);
 }
 
 //drive car
