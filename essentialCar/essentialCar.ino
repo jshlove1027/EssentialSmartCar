@@ -21,19 +21,19 @@ void loop() {
   // put your main code here, to run repeatedly:
   long duration, inches, cm;
 
-  digitalWrite(trigPin, LOW);
+  digitalWrite(trig, LOW);
   delayMicroseconds(2); 
-  digitalWrite(trigPin, HIGH);
+  digitalWrite(trig, HIGH);
   delayMicroseconds(10); 
-  digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);  //돌아오는 시간 측정
+  digitalWrite(trig, LOW);
+  duration = pulseIn(echo, HIGH);  //돌아오는 시간 측정
   cm = microsecondsToCentimeters(duration);
 
   //앞차와 거리에 따른 속도
   if(cm>=35){
     maneuver(200,200,1000);
   }
-  else if(cm>15&&cd<35){
+  else if(cm>15&&cm<35){
     maneuver(100,100,1000);
   }
   else{
@@ -64,4 +64,3 @@ long microsecondsToCentimeters(long microseconds)
     
     return microseconds / 29 / 2;
 }
-
