@@ -55,6 +55,7 @@ void loop() {
     maneuver(speed,speed,1000);
   }
 
+  //조도가 낮을시 헤드라이트 on
   if(light<750){
     analogWrite(headlight,analogRead(lightPin)/4);
   }
