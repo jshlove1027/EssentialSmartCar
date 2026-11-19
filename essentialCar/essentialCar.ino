@@ -28,6 +28,9 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   long duration, inches, cm;
+
+  speed=200; //자동차 속도
+
   light=analogRead(lightPin); //조도
 
   digitalWrite(trig, LOW);
