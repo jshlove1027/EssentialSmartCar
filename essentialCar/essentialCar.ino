@@ -34,7 +34,7 @@ void loop() {
     maneuver(200,200,1000);
   }
   else if(cm>15&&cm<35){
-    maneuver(100,100,1000);
+    maneuver(50,50,1000);
   }
   else{
     maneuver(0,0,1000);
